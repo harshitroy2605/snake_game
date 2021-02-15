@@ -23,6 +23,7 @@ pygame.display.update()
 
 snake_size=10
 snake_list=[]
+initial_direction=0
 
 def snake(snake_size,snake_list):
 	for i in snake_list:
@@ -34,7 +35,8 @@ def snake(snake_size,snake_list):
 
 def game_loop():
 
-
+	global initial_direction
+	global snake_list
 
 	x=350
 	y=200
@@ -51,44 +53,90 @@ def game_loop():
 			if event.type==pygame.KEYDOWN:
 
 				if event.key==pygame.K_LEFT:
-					x_change=-snake_size
-					y_change=0
+					initial_direction="left"
+					snake_list.append(initial_direction)
 
 
 				elif event.key==pygame.K_RIGHT:
+					initial_direction="right"
+					snake_list.append(initial_direction)
+
+				elif event.key==pygame.K_UP:
+					initial_direction="up"
+					snake_list.append(initial_direction)
+
+
+				elif event.key==pygame.K_DOWN:
+					initial_direction="down"
+					snake_list.append(initial_direction)
+
+
+		try:
+			if initial_direction=="right":
+				if snake_list[-2]=="left":
+					print("sname")
+				else:
 					x_change=snake_size
 					y_change=0
 
 
-				elif event.key==pygame.K_UP:
+			elif initial_direction=="left":
+				if snake_list[-2]=="right":
+					pass
+				else:
+					x_change=-snake_size
+					y_change=0
+
+
+			elif initial_direction=="up":
+				if snake_list[-2]=="down":
+					pass
+				else:
 					y_change=-snake_size
 					x_change=0
 
-
-				elif event.key==pygame.K_DOWN:
+			elif initial_direction=="down":
+				if snake_list[-2]=="up":
+					pass
+				else:
 					y_change=snake_size
 					x_change=0
 
 
 
 
-			#pygame.draw.rect(game_window,blue,[x,y,snake_size,snake_size])
-			#pygame.display.update()
+		except:
+			if initial_direction=="right":
+				x_change=snake_size
+				y_change=0
+				print("initiated")
+
+
+			elif initial_direction=="left":
+
+				x_change=-snake_size
+				y_change=0
+				print("initiated")
+
+			elif initial_direction=="up":
+
+				y_change=-snake_size
+				x_change=0
+				print("initiated")
+
+			elif initial_direction=="down":
+
+				y_change=snake_size
+
+				x_change=0
+				print("initiated")
 
 		x=x+x_change
 		y=y+y_change
 
+
 		pygame.display.update()
 		pygame.draw.rect(game_window,blue,[x,y,snake_size,snake_size])
-
-		'''if x_change!=0:
-			x=x+snake_size
-			pygame.draw.rect(game_window,blue,[x,y,snake_size,snake_size])
-
-		elif y_change!=0:
-			y=y+snake_size
-			pygame.draw.rect(game_window,blue,[x,y,snake_size,snake_size])
-		'''
 
 		pygame.display.update()
 		clock.tick(25)
